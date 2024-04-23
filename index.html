@@ -7,7 +7,32 @@
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
 </head>
-<body>
-    
+<body class="background-img">
+    <header>
+        <h1 class ="title">ToDo Лист:</h1>
+    </header>
+    <section class="section-one">
+        <div class="section-one__background">
+            <div class="background__botton-3b">
+                <button class="btn-all" id="all">
+                    Все    
+                </button>
+                <button class="btn-unfulfilled" id="unfulfilled">
+                    Невыполн.  
+                </button>
+                <button class="btn-completed" id="completed">
+                    Выполненные    
+                </button>
+            </div>
+            <div class="background__botton-2b">
+                <button class="btn-add" id="add">
+                    Добавить   
+                </button>
+                <button class="btn-delete" id="delete">
+                    <img class="btn-delete__trash trash" src="./assets/trash.svg" alt="корзина">  
+                </button>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
