@@ -24,14 +24,26 @@
                     Выполненные    
                 </button>
             </div>
-            <div class="background__botton-2b">
-                <button class="btn-add" id="add">
-                    Добавить   
-                </button>
-                <button class="btn-delete" id="delete">
-                    <img class="btn-delete__trash trash" src="./assets/trash.svg" alt="корзина">  
-                </button>
-            </div>
+            <form id="form">
+                <div class="background__botton-2b">
+                    <button type="submit" class="btn-add" id="add">
+                        Добавить   
+                    </button>
+                </div>
+                <input class="background__text-input" type="text" id="input-text" placeholder="Введите ToDo" >
+            </form>
+            <button class="btn-delete" id="delete">
+                <img class="btn-delete__trash trash" src="./assets/trash.svg" alt="корзина">  
+            </button>
+            <ul class="list-group" id="list">
+                <!-- <li class="list-group-item" id="emptyList">
+                    <input class="group-checkbox" id="checkbox" type="checkbox">
+                    <button type="button" data-action="delete" class="list-btn-group" id="btn-group-del">
+                        <img class="group-trash-btn" src="./assets/trash.svg" alt="корзина">
+                    </button>
+                    <span>Задача</span>
+                </li>   -->
+            </ul>       
         </div>
     </section>
 </body>
