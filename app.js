@@ -3,7 +3,42 @@ const form = document.getElementById('form');
 const tasksList = document.querySelector('#list');
 const emptyList = document.getElementById('emptyList')
 
+let tasks = [];
 
+// редактирование списка
+
+tasksList.addEventListener('dblclick', function(event) {
+  if (event.target.tagName === 'SPAN') {
+      const currentText = event.target.innerText;
+      console.log(event.target)
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = currentText;
+      input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+              event.target.innerText = input.value;  // Сохраняем новое значение
+              event.target.style.display = '';      // Показываем li снова
+              input.remove();                       // Удаляем поле ввода
+          } else if (e.key === 'Escape') {
+            event.target.innerText = currentText
+            input.remove();                       // Удаляем поле ввода без сохранения
+            event.target.style.display = '';
+          }
+        });
+        
+        // При потере фокуса сохраняем изменения и удаляем input
+        // input.addEventListener('blur', function() {
+        //     event.target.innerText = input.value;
+        //     event.target.style.display = ''
+        //     input.remove();
+        // }, { once: true });
+
+      // Скрываем текущий элемент LI и вставляем поле ввода
+      event.target.style.display = 'none';
+      event.target.parentNode.insertBefore(input, event.target);
+      input.focus();  // Ставим фокус на элемент input
+  }
+});
 
 // добавление задачи
 form.addEventListener('submit', addTask)
@@ -12,22 +47,28 @@ form.addEventListener('submit', addTask)
 
 tasksList.addEventListener('click', deleteTask)
 
-if (localStorage.getItem('tasksHTML')) {
-  tasksList.innerHTML = (localStorage.getItem('tasksHTML'))
-}
-
 
 function addTask (event) { 
   event.preventDefault();
-  const id = Date.now()
+  const id = Date.now();
   const taskText = taskInput.value;
+
+  const newTask = {
+    id: Date.now(),
+    text: taskText,
+    done: false
+  };
+
+  tasks.push(newTask)
+
+  const cssClass = newTask.done ? 'task-title line-through' : 'task-title'
   
-  const taskHTML = `<li class="list-group-item" id="emptyList">
+  const taskHTML = `<li class="list-group-item" id="${newTask.id}">
   <input class="group-checkbox" id="${id}-input" type="checkbox" onchange="toggle(${id})">
   <button class="list-btn-group" data-action="delete" id="btn-group-del">
       <img class="group-trash-btn" src="./assets/trash.svg" alt="корзина">
   </button>
-  <span id="${id}-span">${taskText}</span>
+  <span class="${cssClass}" id="${id}-span">${newTask.text}</span>
   </li>`
   
   
@@ -40,28 +81,32 @@ function addTask (event) {
   if (tasksList.children.Length > 1) {
     emptyList.classList.add('none')
   }
-
-  saveHTMLtoLS()
 }
 
 // проверяем что клик был по кнопке "удалить задачу"
 function deleteTask(event) {
-  if (event.target.dataset.action === 'delete'){
-  const parenNode = event.target.closest('.list-group-item')
+  if (event.target.dataset.action !== 'delete') return;
+  const parenNode = event.target.closest('.list-group-item');
+
+  const id = Number(parenNode.id)
+  const index = tasks.findIndex((task) => task.id === id)
+  tasks.splice(index, 1)
+
+  tasks = tasks.filter((task) => task.id !== id)
+  console.log(tasks)
+
   parenNode.remove()
   }
-
-  saveHTMLtoLS()
-}
 
 function toggle(id) {
   const task = document.getElementById(`${id}-span`)
   const checkbox = document.getElementById(`${id}-input`)
   task.style.textDecoration = checkbox.checked ? 'line-through' : 'none';
-
-  saveHTMLtoLS()
 }
 
-function saveHTMLtoLS() {
-  localStorage.setItem('tasksHTML', tasksList.innerHTML);
+function removeListItems() {
+  tasksList;
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
 }
