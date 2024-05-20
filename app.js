@@ -50,20 +50,23 @@ function removeCompletedTasks() {
 
 
 let tasks = [];
-
-if (localStorage.getItem(tasks)) {
-  tasks = JSON.parse(localStorage.getItem(tasks));
+if (localStorage.getItem('tasks')!==null) {
+  tasks = JSON.parse(localStorage.getItem('tasks'));
 }
+
+
 
 tasks.forEach(function (task){
   const cssClass = task.done ? 'task-title line-through' : 'task-title'
   
   const taskHTML = `<li class="list-group-item" id="${task.id}">
-  <input class="group-checkbox" id="${id}-input" type="checkbox" onchange="toggle(${id})">
+  <div class="list-group-item-left">
+  <input class="group-checkbox" id="${task.id}-input" type="checkbox" onchange="toggle(${task.id})">
+  <span class="${cssClass}" id="${task.id}-span">${task.text}</span>
+  </div>
   <button class="list-btn-group" data-action="delete" id="btn-group-del">
       <img class="group-trash-btn" src="./assets/trash.svg" alt="корзина">
   </button>
-  <span class="${cssClass}" id="${id}-span">${task.text}</span>
   </li>`
   
   
@@ -115,6 +118,9 @@ tasksList.addEventListener('click', deleteTask)
 
 function addTask (event) { 
   event.preventDefault();
+  if (!taskInput.value.trim()) {
+    return
+  }
   const id = Date.now();
   const taskText = taskInput.value;
 
@@ -131,11 +137,13 @@ function addTask (event) {
   const cssClass = newTask.done ? 'task-title line-through' : 'task-title'
   
   const taskHTML = `<li class="list-group-item" id="${newTask.id}">
+  <div class="list-group-item-left">
   <input class="group-checkbox" id="${id}-input" type="checkbox" onchange="toggle(${id})">
+  <span class="${cssClass}" id="${id}-span">${newTask.text}</span>
+  </div>
   <button class="list-btn-group" data-action="delete" id="btn-group-del">
       <img class="group-trash-btn" src="./assets/trash.svg" alt="корзина">
   </button>
-  <span class="${cssClass}" id="${id}-span">${newTask.text}</span>
   </li>`
   
   
@@ -179,9 +187,13 @@ function removeListItems() {
   while (list.firstChild) {
     list.removeChild(list.firstChild);
   }
-  saveToLocalStorage()
+  removeLocalStorage()
 }
 
 function saveToLocalStorage() {
   localStorage.setItem('tasks', JSON.stringify(tasks))
+} 
+
+function removeLocalStorage() {
+  localStorage.removeItem('tasks')
 } 
