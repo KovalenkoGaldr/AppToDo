@@ -19,7 +19,7 @@ function markAllTasks() {
 }
 
 // Удалить невыполненные задачи
-  btnUnfulfilled.addEventListener('click', () => {
+btnCompleted.addEventListener('click', () => {
     removeUnfulfilledTasks();
 });
 
@@ -32,9 +32,9 @@ function removeUnfulfilledTasks() {
       }
   });
 }
-
+btnCompleted
 // удалить выполненные задачи
-btnCompleted.addEventListener('click', () => {
+btnUnfulfilled.addEventListener('click', () => {
   removeCompletedTasks();
 });
 
